@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Build.ObjectModelRemoting;
 using Microsoft.EntityFrameworkCore;
 using MVC_FinalProject.Data;
 using MVC_FinalProject.Models;
@@ -34,13 +35,13 @@ namespace MVC_FinalProject.Controllers
         }
         protected IPagedList<Student> GetPagedProcess(int? page, int pageSize)
         {
-            if(page.HasValue && pageSize < 1)
+            if (page.HasValue && pageSize < 1)
             {
                 return null;
             }
             var ListUnpaged = GetStufFromDatabase();
-            IPagedList<Student> pagelist = ListUnpaged.ToPagedList(page ?? 1 , pageSize);
-            if(pagelist.PageNumber != 1 && page.HasValue && page > pagelist.PageCount)
+            IPagedList<Student> pagelist = ListUnpaged.ToPagedList(page ?? 1, pageSize);
+            if (pagelist.PageNumber != 1 && page.HasValue && page > pagelist.PageCount)
             {
                 return null;
             }
@@ -86,9 +87,9 @@ namespace MVC_FinalProject.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Email,Phone,CreateDate,Gender")]Student student)
+        public async Task<IActionResult> Create([Bind("Id,Name,Email,Phone,CreateDate,Gender")] Student student)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 _context.Table1121645.Add(student);
                 await _context.SaveChangesAsync();
@@ -101,12 +102,12 @@ namespace MVC_FinalProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
-            if( id == null || _context.Table1121645 == null)
+            if (id == null || _context.Table1121645 == null)
             {
                 return NotFound();
             }
             var student = await _context.Table1121645.FindAsync(id);
-            if(student == null)
+            if (student == null)
             {
                 return NotFound();
             }
@@ -114,7 +115,7 @@ namespace MVC_FinalProject.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id,[Bind("Id,Name,Email,Phone,CreateDate,Gender")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Phone,CreateDate,Gender")] Student student)
         {
             if (id != student.Id)
             {
@@ -127,9 +128,9 @@ namespace MVC_FinalProject.Controllers
                     _context.Table1121645.Update(student);
                     await _context.SaveChangesAsync();
                 }
-                catch(DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException)
                 {
-                    if(!StudentExists(student.Id))
+                    if (!StudentExists(student.Id))
                     {
                         return NotFound();
                     }
@@ -137,7 +138,7 @@ namespace MVC_FinalProject.Controllers
                     {
                         throw;
                     }
-                }             
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(student);
@@ -151,28 +152,28 @@ namespace MVC_FinalProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
-            if(id == null || _context.Table1121645 == null)
+            if (id == null || _context.Table1121645 == null)
             {
                 return NotFound();
             }
             var student = await _context.Table1121645.FirstOrDefaultAsync(m => m.Id == id);
-            if(student == null) 
+            if (student == null)
             {
                 return NotFound();
             }
             return View(student);
         }
-        [HttpPost,ActionName("Delete")]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if(_context.Table1121645 == null)
+            if (_context.Table1121645 == null)
             {
                 return Problem("Entity set 'CmsContext.Student' is null.");
             }
             var student = await _context.Table1121645.FindAsync(id);
 
-            if(student != null)
+            if (student != null)
             {
                 _context.Table1121645.Remove(student);
                 await _context.SaveChangesAsync();
@@ -180,5 +181,48 @@ namespace MVC_FinalProject.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        //查詢
+        [HttpGet]
+        public IActionResult InputQuery()
+        {
+            return View();
+        }
+        [HttpGet]
+        public IActionResult Query()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Query(int id)
+        {
+            var users = await (from p in _context.Table1121645
+                               where p.Id == id
+                               select p).ToArrayAsync();
+            return View(users);
+        }
+
+        //登入檢查
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+        [HttpGet]
+        public IActionResult LoginCheck()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> LoginCheck(int id)
+        {
+            var users = await (from p in _context.Table1121645
+                               where p.Id == id
+                               select p).ToArrayAsync();
+            if(users.Count()!=0)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(users);
+        }
     }
 }
