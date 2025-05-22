@@ -3,6 +3,17 @@ using MVC_FinalProject.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+// Add services to the container. ******* Session 預設登入30分鐘
+builder.Services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set the session timeout
+    options.Cookie.HttpOnly = true; // Make the session cookie HTTP only
+    options.Cookie.IsEssential = true; // Make the session cookie essential
+});
+
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -28,6 +39,9 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+// Add session *******
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

@@ -11,16 +11,23 @@ namespace MVC_FinalProject.Controllers
 {
     public class DBStudentController : Controller
     {
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
+
         private readonly CmsContext _context;
         public DBStudentController(CmsContext context)
         {
             _context = context;
         }
-        public async Task<IActionResult> Index(int? page = 1)
+        public IActionResult Index()
+        {
+            //New Add session
+            if (HttpContext.Session.GetString("Id") == null)
+            {
+                TempData["Message"] = "Please Login!";
+                return RedirectToAction("Login", "DBStudent");
+            }
+            return View();
+        }
+        public async Task<IActionResult> List(int? page = 1)
         {
             //分頁
             const int pageSize = 5;
@@ -207,22 +214,30 @@ namespace MVC_FinalProject.Controllers
         {
             return View();
         }
-        [HttpGet]
-        public IActionResult LoginCheck()
-        {
-            return View();
-        }
         [HttpPost]
-        public async Task<IActionResult> LoginCheck(int id)
+        public async Task<IActionResult> Login(string Id, string Name)
         {
-            var users = await (from p in _context.Table1121645
-                               where p.Id == id
-                               select p).ToArrayAsync();
-            if(users.Count()!=0)
+            if (Id == null && Name == null)
             {
+                TempData["Message"] = "Please enter account and password!";
+                return RedirectToAction("Login", "DBStudent");
+            }
+
+            var users = await (from p in _context.Table1121645
+                               where p.Id == Convert.ToInt32(Id) && p.Name == Name
+                               orderby p.Name
+                               select p).ToListAsync();
+            if (users.Count != 0)
+            {
+                HttpContext.Session.SetString("Id", Id);
+                TempData["Meessage"] = "Logged in!";
                 return RedirectToAction("Index");
             }
-            return View(users);
+            else
+            {
+                TempData["Message"] = "Login failed!";
+                return RedirectToAction("Login", "DBStudent");
+            }
         }
     }
 }

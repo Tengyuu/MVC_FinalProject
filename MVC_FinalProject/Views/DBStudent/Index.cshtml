@@ -1,81 +1,66 @@
-﻿@model IEnumerable<MVC_FinalProject.Models.Student>
-@using X.PagedList;
-@using X.PagedList.Mvc.Core;
-@using X.PagedList.Mvc.Core.Fluent;
+﻿
 @{
     ViewData["Title"] = "Index";
-    var pageList = (IPagedList)ViewBag.userModel;
 }
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreateDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Gender)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreateDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gender)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-    <tfoot>
-        <tr>
-            <td class=" text-muted" colspan="5">
-                第@(pageList.PageCount < pageList.PageNumber ? 0 : pageList.PageNumber)頁，共 @pageList.PageCount 頁，
-                每頁 @pageList.PageSize 筆資料，全部共有 @pageList.TotalItemCount 筆資料。
-            </td>
-        </tr>
-    </tfoot>
-</table>
-<div style="align-content:center">
-    @(Html.Pager(pageList)
-        .Url(page => Url.Action("Index", new { page }))
-        .Build())
+
+<div class="HomePage">
+    <div class="container">
+        <h1>DBGym 系統首頁</h1>
+        <p>請選擇操作：</p>
+
+        <div class="button-group">
+            <a class="nav-button" href="@Url.Action("Create", "DBStudent")">新增會員</a>
+            <a class="nav-button" href="@Url.Action("List", "DBStudent")">會員清單</a>
+@*             <a class="nav-button" href="@Url.Action("Login", "DBStudent")">登入</a> *@
+        </div>
+    </div>
 </div>
+
+
+<style>
+    homepage {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f3f4f6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .container {
+        background: white;
+        padding: 30px 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    h1 {
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .button-group {
+        margin-top: 20px;
+    }
+
+    .nav-button {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 10px;
+        border-radius: 8px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .nav-button:hover {
+        background-color: #0056b3;
+    }
+</style>
