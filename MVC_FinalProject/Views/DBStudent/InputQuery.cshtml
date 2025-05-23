@@ -4,20 +4,73 @@
     ViewData["Title"] = "InputQuery";
 }
 
-<h1>InputQuery</h1>
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Query"> @* 當按下按鈕執行Query動作!!! *@
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Query" class="btn btn-primary" />
-            </div>
-        </form>
+
+<div class="InputQuery">
+    <div>
+        <h1 class="page-title">查詢</h1>
+    </div>
+
+    <div class="container d-flex justify-content-center align-items-center mt-5">
+        <div class="card p-4 shadow-lg" style="width: 400px;">
+            <form asp-action="Query">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Id" class="form-label fw-bold"></label>
+                    <input asp-for="Id" class="form-control" placeholder="輸入Id查詢" />
+                    <span asp-validation-for="Id" class="text-danger"></span>
+                </div>
+
+                <div class="form-group text-center">
+                    <input type="submit" value="Query" class="btn btn-primary w-100" />
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<style>
+    .page-title{
+        background-color: #4a69bd;
+        color: white;
+        width:25%;
+        text-align:center;
+        padding:15px;
+        border-radius:20px;
+        margin: 0 auto 10px auto;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .InputQuery {
+        background: linear-gradient(to right, #74ebd5, #9face6);
+        min-height: 100vh;
+        font-family: 'Segoe UI', sans-serif;
+        padding-top: 20px;
+    }
+
+    .card {
+        margin-top: 20px;
+        background-color: #ffffffd9;
+        border-radius: 16px;
+    }
+
+    .form-label {
+        color: #333;
+    }
+
+    .btn-primary {
+        background-color: #4a69bd;
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background-color: #3b55a0;
+        }
+</style>

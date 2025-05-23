@@ -20,5 +20,7 @@ namespace MVC_FinalProject.Models
         public string Gender { get; set; }
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        public ICollection<Enrollment> TableEnrollments1121645 { get; set; }
     }
 }

@@ -20,11 +20,11 @@ namespace MVC_FinalProject.Controllers
         public IActionResult Index()
         {
             //New Add session
-            if (HttpContext.Session.GetString("Id") == null)
-            {
-                TempData["Message"] = "Please Login!";
-                return RedirectToAction("Login", "DBStudent");
-            }
+            //if (HttpContext.Session.GetString("Id") == null)
+            //{
+            //    TempData["Message"] = "Please Login!";
+            //    return RedirectToAction("Login", "DBStudent");
+            //}
             return View();
         }
         public async Task<IActionResult> List(int? page = 1)
@@ -100,8 +100,10 @@ namespace MVC_FinalProject.Controllers
             {
                 _context.Table1121645.Add(student);
                 await _context.SaveChangesAsync();
+                TempData["CreateSuccessMessage"] = "新增成功!";
                 return RedirectToAction(nameof(Index));
             }
+            
             return View(student);
         }
 

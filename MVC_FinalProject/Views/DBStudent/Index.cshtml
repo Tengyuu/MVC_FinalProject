@@ -3,12 +3,15 @@
     ViewData["Title"] = "Index";
 }
 
-
+@if(TempData["CreateSuccessMessage"] != null){
+    <div class="alert alert-success">
+        @TempData["CreateSuccessMessage"]
+    </div>
+}
 
 <div class="HomePage">
     <div class="container">
-        <h1>系統首頁</h1>
-        <p>請選擇操作：</p>
+        <h1>學生資料系統首頁</h1>
 
         <div class="button-group">
             <a class="nav-button" href="@Url.Action("Create", "DBStudent")">新增學生</a>

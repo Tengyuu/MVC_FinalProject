@@ -33,12 +33,10 @@
             </div>
             <div class="forget">
                 <label for=""><input type="checkbox">Remember</label>
-                <a href="#">Forget Password</a>
+                <a href="@Url.Action("ForgetPassword")">Forget Password</a>
             </div>
             <button type="submit" class="btn btn-info">Login</button>
-            <div class="register">
-                <p>I dont have an account<a href="#">Register</a></p>
-            </div>
+         
         </form>
     </section>
 
@@ -153,19 +151,6 @@
         button:hover{
             background-color: rgb(255,255,255,0.5);
         }
-        .register{
-            font-size: 0.9rem;
-            color:#fff;
-            text-align: center;
-            margin: 25px 0 10px;
-        }
-        .register p a{
-            text-decoration: none;
-            color: #fff;
-            font-weight: 600;
-        }
-        .register p a:hover{
-            text-decoration:underline;
-        }
+      
         </style>
 }
