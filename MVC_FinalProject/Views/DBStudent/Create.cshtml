@@ -4,44 +4,49 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>Student</h4>
+<h1>Create Student</h1>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+<div class="create-student ">
+    <div class="create-form-container">
+        <form asp-action="Create" class="create-form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
+                <label asp-for="Id"></label>
                 <input asp-for="Id" class="form-control" />
                 <span asp-validation-for="Id" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Name"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
+                <label asp-for="Email"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
+                <label asp-for="Phone"></label>
                 <input asp-for="Phone" class="form-control" />
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="CreateDate" class="control-label"></label>
-                <input asp-for="CreateDate" class="form-control" />
-                <span asp-validation-for="CreateDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Gender" class="control-label"></label>
-                <select asp-for="Gender" asp-items ="ViewBag.GenderList" class="form-control"></select>
+                <label asp-for="Gender"></label>
+                <select asp-for="Gender" asp-items="ViewBag.GenderList" class="form-control"></select>
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -49,10 +54,87 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+
+<div class="back-link">
+    <a asp-action="Index">← Back to List</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
+<style>
+    .create-student{
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #f4f7f9;
+        margin: 0;
+        padding: 20px;
+    }
+
+    h1 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .create-form-container {
+        background-color: #ffffff;
+        border-radius: 12px;
+        padding: 30px;
+        max-width: 500px;
+        margin: 0 auto;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-weight: 600;
+        color: #555;
+    }
+
+    .form-control {
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        padding: 10px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 6px;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.3s;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .text-danger {
+        font-size: 0.85rem;
+        color: #d9534f;
+    }
+
+    .back-link {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .back-link a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .back-link a:hover {
+        text-decoration: underline;
+    }
+</style>

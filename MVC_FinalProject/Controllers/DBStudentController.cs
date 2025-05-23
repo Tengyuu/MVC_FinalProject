@@ -94,7 +94,7 @@ namespace MVC_FinalProject.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Email,Phone,CreateDate,Gender")] Student student)
+        public async Task<IActionResult> Create([Bind("Id,Name,Email,Phone,Gender,Password")] Student student)
         {
             if (ModelState.IsValid)
             {
@@ -122,7 +122,7 @@ namespace MVC_FinalProject.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Phone,CreateDate,Gender")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("Password,Id,Name,Email,Phone,Gender")] Student student)
         {
             if (id != student.Id)
             {
@@ -215,16 +215,16 @@ namespace MVC_FinalProject.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login(string Id, string Name)
+        public async Task<IActionResult> Login(string Id, string Password)
         {
-            if (Id == null && Name == null)
+            if (Id == null && Password == null)
             {
                 TempData["Message"] = "Please enter account and password!";
                 return RedirectToAction("Login", "DBStudent");
             }
 
             var users = await (from p in _context.Table1121645
-                               where p.Id == Convert.ToInt32(Id) && p.Name == Name
+                               where p.Id == Convert.ToInt32(Id) && p.Password == Password
                                orderby p.Name
                                select p).ToListAsync();
             if (users.Count != 0)
@@ -238,6 +238,36 @@ namespace MVC_FinalProject.Controllers
                 TempData["Message"] = "Login failed!";
                 return RedirectToAction("Login", "DBStudent");
             }
+        }
+
+        //忘記密碼
+        [HttpGet]
+        public IActionResult ForgetPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("ResetPassword")]
+        public async Task<IActionResult> ResetPassword(int id, string NewPassword)
+        {
+            var student = await _context.Table1121645.FindAsync(id);
+            if (student == null)
+            {
+                ModelState.AddModelError("", "User NotFount.");
+                return View();
+            }
+            if(string.IsNullOrWhiteSpace(NewPassword))
+            {
+                ModelState.AddModelError("", "Password cannot be empty.");
+                return View();
+            }
+            student.Password = NewPassword;
+            _context.Update(student);
+            await _context.SaveChangesAsync();
+
+            TempData["Message"] = "Password reset cuccessful.";
+            return RedirectToAction("Index");
         }
     }
 }

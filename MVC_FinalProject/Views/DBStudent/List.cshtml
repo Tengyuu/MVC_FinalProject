@@ -7,7 +7,6 @@
     var pageList = (IPagedList)ViewBag.userModel;
 }
 
-<h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -17,6 +16,9 @@
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Password)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
@@ -44,6 +46,9 @@
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
@@ -59,9 +64,9 @@
                     @Html.DisplayFor(modelItem => item.Gender)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-info">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         }
@@ -80,3 +85,34 @@
         .Url(page => Url.Action("List", new { page }))
         .Build())
 </div>
+
+@section topCSS
+{
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+    <style>
+        table caption {
+            caption-side: top;
+            color: white;
+            background-color: black;
+            text-align: center;
+        }
+
+        /*設定thead顏色*/
+        .table > thead > tr {
+            color: white;
+            background-color: #3176b1;
+        }
+
+        /*設定tfoot顏色及文字對齊*/
+        .table > tfoot > tr {
+            background-color: lightgreen;
+            font-size: medium;
+        }
+
+        /*設定文字對齊*/
+        .table > thead > tr > th, .table > tfoot > tr {
+            text-align: center;
+        }
+    </style>
+}

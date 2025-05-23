@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MVC_FinalProject.Models
 {
+    [Table("Tablemytables1121645")]
     public class Student
     {
         public int Id { get; set; }
@@ -14,7 +16,9 @@ namespace MVC_FinalProject.Models
         [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
         [DataType(DataType.DateTime)]
-        public DateTime CreateDate { get; set; }
+        public DateTime CreateDate { get; set; } = DateTime.Now;
         public string Gender { get; set; }
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
     }
 }

@@ -3,18 +3,17 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
 
 
 <div class="HomePage">
     <div class="container">
-        <h1>DBGym 系統首頁</h1>
+        <h1>系統首頁</h1>
         <p>請選擇操作：</p>
 
         <div class="button-group">
-            <a class="nav-button" href="@Url.Action("Create", "DBStudent")">新增會員</a>
-            <a class="nav-button" href="@Url.Action("List", "DBStudent")">會員清單</a>
-@*             <a class="nav-button" href="@Url.Action("Login", "DBStudent")">登入</a> *@
+            <a class="nav-button" href="@Url.Action("Create", "DBStudent")">新增學生</a>
+            <a class="nav-button" href="@Url.Action("List", "DBStudent")">學生清單</a>
+            <a class="nav-button" href="@Url.Action("InputQuery", "DBStudent")">查詢</a>
         </div>
     </div>
 </div>
