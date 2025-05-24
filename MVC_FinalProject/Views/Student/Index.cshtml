@@ -3,20 +3,20 @@
     ViewData["Title"] = "Index";
 }
 
-@if(TempData["CreateSuccessMessage"] != null){
+@* @if(TempData["CreateSuccessMessage"] != null){
     <div class="alert alert-success">
         @TempData["CreateSuccessMessage"]
     </div>
-}
+} *@
 
 <div class="HomePage">
     <div class="container">
         <h1>學生資料系統首頁</h1>
 
         <div class="button-group">
-            <a class="nav-button" href="@Url.Action("Create", "DBStudent")">新增學生</a>
-            <a class="nav-button" href="@Url.Action("List", "DBStudent")">學生清單</a>
-            <a class="nav-button" href="@Url.Action("InputQuery", "DBStudent")">查詢</a>
+            <a class="nav-button" href="@Url.Action("Create", "Student")">新增學生</a>
+            <a class="nav-button" href="@Url.Action("List", "Student")">學生清單</a>
+            <a class="nav-button" href="@Url.Action("InputQuery", "Student")">查詢</a>
         </div>
     </div>
 </div>

@@ -5,6 +5,13 @@
 }
 
 <h1>Detail</h1>
+@* <h4>選修課程</h4>
+<ul>
+    @foreach (var e in Model.TableEnrollments1121645)
+    {
+        <li>@e.CourseId.Title</li>
+    }
+</ul> *@
 
 <div>
     <h4>Student</h4>

@@ -7,5 +7,6 @@
         public Student Table1121645 { get; set; }
         public int CourseId {  get; set; }
         public Course TableCourses1121645 { get; set; }
+       
     }
 }

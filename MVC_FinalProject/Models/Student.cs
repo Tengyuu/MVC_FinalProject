@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MVC_FinalProject.Models
 {
-    [Table("Tablemytables1121645")]
+    [Table("TableStudents1121645")]
     public class Student
     {
         public int Id { get; set; }
@@ -18,9 +18,10 @@ namespace MVC_FinalProject.Models
         [DataType(DataType.DateTime)]
         public DateTime CreateDate { get; set; } = DateTime.Now;
         public string Gender { get; set; }
-        [DataType(DataType.Password)]
+
         public string Password { get; set; }
 
-        public ICollection<Enrollment> TableEnrollments1121645 { get; set; }
+        public ICollection<Enrollment> TableEnrollments1121645 { get; set; } = new List<Enrollment>();
+        
     }
 }

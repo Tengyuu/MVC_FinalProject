@@ -9,22 +9,22 @@ using X.PagedList.Extensions;
 using X.PagedList.Mvc;
 namespace MVC_FinalProject.Controllers
 {
-    public class DBStudentController : Controller
+    public class StudentController : Controller
     {
 
         private readonly CmsContext _context;
-        public DBStudentController(CmsContext context)
+        public StudentController(CmsContext context)
         {
             _context = context;
         }
         public IActionResult Index()
         {
             //New Add session
-            //if (HttpContext.Session.GetString("Id") == null)
-            //{
-            //    TempData["Message"] = "Please Login!";
-            //    return RedirectToAction("Login", "DBStudent");
-            //}
+            if (HttpContext.Session.GetString("Id") == null)
+            {
+                TempData["Message"] = "Please Login!";
+                return RedirectToAction("Login", "Student");
+            }
             return View();
         }
         public async Task<IActionResult> List(int? page = 1)
@@ -103,7 +103,11 @@ namespace MVC_FinalProject.Controllers
                 TempData["CreateSuccessMessage"] = "新增成功!";
                 return RedirectToAction(nameof(Index));
             }
-            
+            ViewBag.GenderList = new List<SelectListItem>
+                {
+                new SelectListItem {Text = "男", Value= "男" },
+                new SelectListItem {Text = "女", Value= "女" }
+            };
             return View(student);
         }
 
@@ -222,7 +226,7 @@ namespace MVC_FinalProject.Controllers
             if (Id == null && Password == null)
             {
                 TempData["Message"] = "Please enter account and password!";
-                return RedirectToAction("Login", "DBStudent");
+                return RedirectToAction("Login", "Student");
             }
 
             var users = await (from p in _context.Table1121645
@@ -238,7 +242,7 @@ namespace MVC_FinalProject.Controllers
             else
             {
                 TempData["Message"] = "Login failed!";
-                return RedirectToAction("Login", "DBStudent");
+                return RedirectToAction("Login", "Student");
             }
         }
 
