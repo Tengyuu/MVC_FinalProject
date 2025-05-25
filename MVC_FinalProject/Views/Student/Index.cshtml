@@ -1,6 +1,7 @@
 ﻿
 @{
     ViewData["Title"] = "Index";
+    var sid = ViewBag.studentid;
 }
 
 
@@ -17,6 +18,7 @@
 
         <div class="button-group">
             <a class="nav-button" href="@Url.Action("Enroll", "Enrollment")">選課</a>
+            <a class="nav-button" href="@Url.Action("SelectedCourse", "Student",new {id=sid})">已選課程</a>
         </div>
     </div>
 </div>

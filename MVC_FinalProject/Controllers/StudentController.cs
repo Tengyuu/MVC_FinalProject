@@ -4,6 +4,7 @@ using Microsoft.Build.ObjectModelRemoting;
 using Microsoft.EntityFrameworkCore;
 using MVC_FinalProject.Data;
 using MVC_FinalProject.Models;
+using System.Threading.Tasks;
 using X.PagedList;
 using X.PagedList.Extensions;
 using X.PagedList.Mvc;
@@ -19,16 +20,24 @@ namespace MVC_FinalProject.Controllers
         }
         public IActionResult Index()
         {
+            var session = HttpContext.Session.GetString("Id");
             //New Add session
-            if (HttpContext.Session.GetString("Id") == null)
+            if (string.IsNullOrWhiteSpace(session))
             {
                 TempData["Message"] = "Please Login!";
-                return RedirectToAction("Login", "Student");
+                return RedirectToAction("Login");
             }
+            ViewBag.studentid = session;
             return View();
         }
         public IActionResult Index2()
         {
+            var session = HttpContext.Session.GetString("Id");
+            if (string.IsNullOrWhiteSpace(session))
+            {
+                TempData["Message"] = "Please Login!";
+                return RedirectToAction("Login");
+            }
             return View();
         }
         public async Task<IActionResult> List(int? page = 1)
@@ -296,5 +305,32 @@ namespace MVC_FinalProject.Controllers
             TempData["Message"] = "Password reset cuccessful.";
             return RedirectToAction("Index");
         }
+        //已選課程
+        [HttpGet]
+        public async Task<IActionResult> SelectedCourse(int? id)
+        {
+            if (id == null || _context.Table1121645 == null)
+            {
+                var msgObject = new
+                {
+                    statuscode = StatusCodes.Status400BadRequest,
+                    error = "無效的請求，必須提供Id編號!"
+                };
+                return new BadRequestObjectResult(msgObject);
+            }
+
+            //var student = await _context.Table1121645.FirstOrDefaultAsync(m => m.Id == id);
+
+            var student = await _context.Table1121645
+                .Include(s => s.TableEnrollments1121645)
+                .ThenInclude(e => e.TableCourses1121645)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+            return View(student);
+        }
+
     }
 }

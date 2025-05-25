@@ -52,6 +52,7 @@
         </dd>
     </dl>
 </div>
+<div>  <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> </div>
 <h3>已選課程</h3>
 @if (Model.TableEnrollments1121645 != null && Model.TableEnrollments1121645.Any())
 {
@@ -87,8 +88,7 @@ else
 }
 
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">← 上一頁</a>
 </div>
 
 

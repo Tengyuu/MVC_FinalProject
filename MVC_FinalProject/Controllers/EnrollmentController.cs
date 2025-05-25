@@ -23,6 +23,7 @@ namespace MVC_FinalProject.Controllers
             var sessionId = HttpContext.Session.GetString("Id");
             if (string.IsNullOrEmpty(sessionId))
             {
+                TempData["Message"] = "Please Login!";
                 return RedirectToAction("Login", "Student");
             }
             int studentId = int.Parse(sessionId);
@@ -37,10 +38,12 @@ namespace MVC_FinalProject.Controllers
             var sessionId = HttpContext.Session.GetString("Id");
             if (string.IsNullOrEmpty(sessionId))
             {
+                TempData["Message"] = "Please Login!";
                 return RedirectToAction("Login", "Student");
             }
             int studentId = int.Parse(sessionId);
             bool alreadyEnrolled = await _context.TableEnrollments1121645.AnyAsync(e=>e.StudentId == studentId && e.CourseId == courseId);
+            var course = await _context.TableCourses1121645.FindAsync(courseId);
             if (!alreadyEnrolled)
             {
                 var enrollment = new Enrollment
@@ -50,19 +53,29 @@ namespace MVC_FinalProject.Controllers
                 };
                 _context.TableEnrollments1121645.Add(enrollment);
                 await _context.SaveChangesAsync();
+                TempData["Enrollmsg"] = $"{course.CourseName}選課成功!";
             }
-            return RedirectToAction("Details","Student",new {id = studentId});
+            else
+            {
+                TempData["Enrollmsg"] = $"{course.CourseName} 已經選過了！";
+            }
+
+            return RedirectToAction("Enroll");
+            //return RedirectToAction("Details","Student",new {id = studentId});
         }
         //退選課程
         public async Task<IActionResult> DropCourse(int studentId, int courseId)
         {
             var enrollment = await _context.TableEnrollments1121645.FirstOrDefaultAsync(e => e.StudentId == studentId && e.CourseId == courseId);
+            var course = await _context.TableCourses1121645.FindAsync(courseId);
             if (enrollment != null)
             {
                 _context.TableEnrollments1121645.Remove(enrollment);
                 await _context.SaveChangesAsync();
+                TempData["DropSuccessmsg"] = $"{course.CourseName} 退選成功!";
             }
-            return RedirectToAction("Details", "Student", new { id = studentId });
+            return RedirectToAction("SelectedCourse", "Student", new { id = studentId });
         }
+        
     }
 }

@@ -1,0 +1,42 @@
+﻿@model MVC_FinalProject.Models.Student
+
+<h3>已選課程</h3>
+@if (TempData["DropSuccessmsg"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["DropSuccessmsg"]
+    </div>
+}
+@if (Model?.TableEnrollments1121645 != null && Model.TableEnrollments1121645.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>課程名稱</th>
+                <th>老師</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var enrollment in Model.TableEnrollments1121645)
+            {
+                <tr>
+                    <td>@enrollment.TableCourses1121645?.CourseName</td>
+                    <td>@enrollment.TableCourses1121645?.Teacher</td>
+                    <td>
+                        <form asp-controller="Enrollment" asp-action="DropCourse" method="post">
+                            <input type="hidden" name="studentId" value="@Model.Id" />
+                            <input type="hidden" name="courseId" value="@enrollment.CourseId" />
+                            <button type="submit" class="btn btn-danger">退選</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>尚未選課。</p>
+}
+<div><a asp-action="Index">← 上一頁</a></div>

@@ -4,6 +4,12 @@
     var studentId = ViewBag.StudentId;
 }
 <h2>選擇課程</h2>
+@if (TempData["Enrollmsg"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Enrollmsg"]
+    </div>
+}
 
 <table class="table">
     <thead>
@@ -26,7 +32,9 @@
                         <button type="submit" class="btn btn-success">選課</button>
                     </form>
                 </td>
+            
             </tr>
         }
     </tbody>
 </table>
+<div><a asp-controller="Student" asp-action="Index">← 上一頁</a></div>
