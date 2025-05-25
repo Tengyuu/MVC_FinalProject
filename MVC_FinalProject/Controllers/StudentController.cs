@@ -245,7 +245,6 @@ namespace MVC_FinalProject.Controllers
                 return RedirectToAction("Login", "Student");
             }
         }
-
         //忘記密碼
         [HttpGet]
         public IActionResult ForgetPassword()
