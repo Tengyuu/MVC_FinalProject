@@ -70,6 +70,7 @@ namespace MVC_FinalProject.Controllers
                 {
                     _context.TableCourses1121645.Update(course);
                     await _context.SaveChangesAsync();
+                    
                 }
                 catch(DbUpdateConcurrencyException)
                 {
@@ -82,7 +83,7 @@ namespace MVC_FinalProject.Controllers
                         throw;
                     }
                 }
-              
+                TempData["Editmsg"] = "編輯成功";
                 return RedirectToAction("Index");
             }
             return View(course);
@@ -90,6 +91,56 @@ namespace MVC_FinalProject.Controllers
         private bool CourseExists(int id)
         {
             return _context.TableCourses1121645.Any(e=>e.CourseId==id);
+        }
+        //delete
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+            var course = await _context.TableCourses1121645.FirstOrDefaultAsync(c => c.CourseId == id);
+            if(course == null)
+            {
+                return NotFound();
+            }
+            return View(course);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Delete")]
+        public async Task<IActionResult> DeleteComfirmed(int id)
+        {
+            if(_context.TableCourses1121645 == null)
+            {
+                return Problem("Entity set 'CmsContext.Course' is null.");
+            }
+            var course = await _context.TableCourses1121645.FindAsync(id);
+            if(course!=null)
+            {
+                _context.TableCourses1121645.Remove(course);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Index");
+        }
+        //Detail
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null || _context.TableCourses1121645 == null)
+            {
+                var msgObject = new
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    error = "無效請求，必須提供id!"
+                };
+                return new BadRequestObjectResult(msgObject);
+            }
+            var course = await _context.TableCourses1121645.FirstOrDefaultAsync(c=>c.CourseId == id);
+            if(course==null)
+            {
+                return NotFound();
+            }
+            return View(course);
         }
     }
 }

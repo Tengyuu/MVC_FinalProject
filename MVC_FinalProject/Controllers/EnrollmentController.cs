@@ -17,38 +17,52 @@ namespace MVC_FinalProject.Controllers
         {
             _context = context;
         }
-        [HttpGet]
-        public IActionResult Create()
+        //顯示所有課程供學生選擇
+        public async Task<IActionResult> Enroll()
         {
-            ViewBag.Students = new SelectList(_context.Table1121645, "Id", "Name");
-            ViewBag.Courses = new SelectList(_context.TableCourses1121645, "CourseId", "Title");
-            return View();
+            var sessionId = HttpContext.Session.GetString("Id");
+            if (string.IsNullOrEmpty(sessionId))
+            {
+                return RedirectToAction("Login", "Student");
+            }
+            int studentId = int.Parse(sessionId);
+            var courses = await _context.TableCourses1121645.ToListAsync();
+            ViewBag.StudentId = studentId;
+            return View(courses);
         }
-
+        //執行選課
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StudentId,CourseId")] Enrollment enrollment)
+        public async Task<IActionResult> EnrollCourse(int courseId)
         {
-            // 檢查是否已經選過該課
-            bool alreadyEnrolled = _context.TableEnrollments1121645
-                .Any(e => e.StudentId == enrollment.StudentId && e.CourseId == enrollment.CourseId);
-
-            if (alreadyEnrolled)
+            var sessionId = HttpContext.Session.GetString("Id");
+            if (string.IsNullOrEmpty(sessionId))
             {
-                ModelState.AddModelError("", "學生已經選過這門課。");
+                return RedirectToAction("Login", "Student");
             }
-
-            if (ModelState.IsValid)
+            int studentId = int.Parse(sessionId);
+            bool alreadyEnrolled = await _context.TableEnrollments1121645.AnyAsync(e=>e.StudentId == studentId && e.CourseId == courseId);
+            if (!alreadyEnrolled)
             {
-                _context.Add(enrollment);
+                var enrollment = new Enrollment
+                {
+                    StudentId = studentId,
+                    CourseId = courseId
+                };
+                _context.TableEnrollments1121645.Add(enrollment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
             }
-
-            ViewBag.Students = new SelectList(_context.Table1121645, "Id", "Name", enrollment.StudentId);
-            ViewBag.Courses = new SelectList(_context.TableCourses1121645, "CourseId", "Title", enrollment.CourseId);
-            return View(enrollment);
+            return RedirectToAction("Details","Student",new {id = studentId});
         }
-
+        //退選課程
+        public async Task<IActionResult> DropCourse(int studentId, int courseId)
+        {
+            var enrollment = await _context.TableEnrollments1121645.FirstOrDefaultAsync(e => e.StudentId == studentId && e.CourseId == courseId);
+            if (enrollment != null)
+            {
+                _context.TableEnrollments1121645.Remove(enrollment);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Details", "Student", new { id = studentId });
+        }
     }
 }

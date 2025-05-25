@@ -27,6 +27,10 @@ namespace MVC_FinalProject.Controllers
             }
             return View();
         }
+        public IActionResult Index2()
+        {
+            return View();
+        }
         public async Task<IActionResult> List(int? page = 1)
         {
             //分頁
@@ -72,8 +76,12 @@ namespace MVC_FinalProject.Controllers
                 return new BadRequestObjectResult(msgObject);
             }
 
-            var student = await _context.Table1121645.FirstOrDefaultAsync(m => m.Id == id);
+            //var student = await _context.Table1121645.FirstOrDefaultAsync(m => m.Id == id);
 
+            var student = await _context.Table1121645
+                .Include(s => s.TableEnrollments1121645)
+                .ThenInclude(e=>e.TableCourses1121645)
+                .FirstOrDefaultAsync(m=>m.Id== id);
             if (student == null)
             {
                 return NotFound();
@@ -236,8 +244,20 @@ namespace MVC_FinalProject.Controllers
             if (users.Count != 0)
             {
                 HttpContext.Session.SetString("Id", Id);
-                TempData["Meessage"] = "Logged in!";
-                return RedirectToAction("Index");
+                HttpContext.Session.SetString("Role", users[0].Role);
+                if (users[0].Role != "Admin")
+                {
+       
+
+                    TempData["Loginmsg"] = "Student Logged in!";
+                     return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["LoginAdminmsg"] = "Admin Logged in!";
+                    return RedirectToAction("Index2");
+                }
+                
             }
             else
             {
@@ -245,6 +265,8 @@ namespace MVC_FinalProject.Controllers
                 return RedirectToAction("Login", "Student");
             }
         }
+    
+
         //忘記密碼
         [HttpGet]
         public IActionResult ForgetPassword()

@@ -4,10 +4,17 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>課程</h1>
+@if(TempData["Editmsg"] != null){
+    <div class="alert alert-success">
+        @TempData["Editmsg"]
+    </div>
+}
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @* asp-controller="Student" 若要連接到Student Controller下的某某Action*@
+    @*     href="@Url.Action("Create", "Student")" *@
+    <a  asp-action="Create">新增課程</a>
 </p>
 <table class="table">
     <thead>
@@ -31,9 +38,9 @@
                 @Html.DisplayFor(modelItem => item.Teacher)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.CourseId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CourseId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CourseId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.CourseId" class="btn btn-info">Edit</a>
+                <a asp-action="Details" asp-route-id="@item.CourseId" class="btn btn-primary">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.CourseId" class="btn btn-danger">Delete</a>
             </td>
         </tr>
 }

@@ -8,7 +8,8 @@
 }
 
 <h2>帳號登入</h2>
-
+<p>(管理員登入:Id = 1 ,Password = Admin)</p>
+<p>(學生登入:Id = 1121645 ,Password = Aa1121645)</p>
 @* <form action="@Url.Action("Login")" method="post">
     <p>Account(Id): @Html.TextBox("Id", "", new { @class = "form-control" })</p>
     <p>Password(Name):@Html.TextBox("Name", "", new { @class = "form-control" })</p>
@@ -24,12 +25,12 @@
             <div class="inputbox">
                 <ion-icon name="mail-outline"></ion-icon>
                 <input type="text" id="Id" name="Id" class="form-control" required />
-                <label for="">Default:1121645</label>
+                <label for="">Id</label>
             </div>
             <div class="inputbox">
                 <ion-icon name="lock-closed-outline"></ion-icon>
                 <input type="text" id="Password" name="Password" class="form-control" required />
-                <label for="">Default:Aa1121645</label>
+                <label for="">Password</label>
             </div>
             <div class="forget">
                 <label for=""><input type="checkbox">Remember</label>

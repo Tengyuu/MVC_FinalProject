@@ -1,22 +1,25 @@
 ﻿
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Index2";
 }
 
 
 <div class="HomePage">
     <div class="container">
-        <h1>學生選課系統</h1>
+        <h1>學生資料系統首頁</h1>
 
 
-        @if (TempData["Loginmsg"] != null)
+        @if (@TempData["LoginAdminmsg"] != null)
         {
-            <div class="alert alert-success">@TempData["Loginmsg"]</div>
+            <div class="alert alert-success">@TempData["LoginAdminmsg"]</div>
         }
 
-
         <div class="button-group">
-            <a class="nav-button" href="@Url.Action("Enroll", "Enrollment")">選課</a>
+            <a class="nav-button" href="@Url.Action("Create", "Student")">新增學生</a>
+            <a class="nav-button" href="@Url.Action("List", "Student")">學生清單</a>
+            <a class="nav-button" href="@Url.Action("InputQuery", "Student")">查詢</a>
+            <a class="nav-button" href="@Url.Action("Index", "Course")">選課課程</a>
+            <a class="nav-button" href="@Url.Action("Create","Course")">新增課程</a>
         </div>
     </div>
 </div>
@@ -62,7 +65,7 @@
         transition: background-color 0.3s ease;
     }
 
-    .nav-button:hover {
-        background-color: #0056b3;
-    }
+        .nav-button:hover {
+            background-color: #0056b3;
+        }
 </style>

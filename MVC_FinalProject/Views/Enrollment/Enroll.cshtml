@@ -1,0 +1,32 @@
+﻿@model List<MVC_FinalProject.Models.Course>
+@{
+    ViewBag.Title = "選課";
+    var studentId = ViewBag.StudentId;
+}
+<h2>選擇課程</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>課程名稱</th>
+            <th>老師</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var course in Model)
+        {
+            <tr>
+                <td>@course.CourseName</td>
+                <td>@course.Teacher</td>
+                <td>
+                    <form asp-action="EnrollCourse" method="post">
+                        <input type="hidden" name="studentId" value="@studentId" />
+                        <input type="hidden" name="courseId" value="@course.CourseId" />
+                        <button type="submit" class="btn btn-success">選課</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
