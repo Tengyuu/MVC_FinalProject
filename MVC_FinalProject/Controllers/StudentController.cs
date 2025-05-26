@@ -256,8 +256,6 @@ namespace MVC_FinalProject.Controllers
                 HttpContext.Session.SetString("Role", users[0].Role);
                 if (users[0].Role != "Admin")
                 {
-       
-
                     TempData["Loginmsg"] = "Student Logged in!";
                      return RedirectToAction("Index");
                 }
