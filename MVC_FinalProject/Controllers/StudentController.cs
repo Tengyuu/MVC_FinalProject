@@ -118,7 +118,7 @@ namespace MVC_FinalProject.Controllers
                 _context.Table1121645.Add(student);
                 await _context.SaveChangesAsync();
                 TempData["CreateSuccessMessage"] = "新增成功!";
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index2));
             }
             ViewBag.GenderList = new List<SelectListItem>
                 {
@@ -169,7 +169,7 @@ namespace MVC_FinalProject.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index2));
             }
             return View(student);
         }
