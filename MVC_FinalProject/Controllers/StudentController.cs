@@ -273,6 +273,11 @@ namespace MVC_FinalProject.Controllers
             }
         }
     
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login", "Student");
+        }
 
         //忘記密碼
         [HttpGet]

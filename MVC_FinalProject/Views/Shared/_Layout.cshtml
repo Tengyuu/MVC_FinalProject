@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MVC_FinalProject.styles.css" asp-append-version="true" />
-    @RenderSection("topCSS",required: false);
+    @RenderSection("topCSS",required: false)
 </head>
 <body>
     <header>
@@ -27,6 +27,9 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
+                    <div class="d-flex justify-content-end mt-3 me-3">
+                        <a asp-controller="Student" asp-action="Logout" class="btn btn-danger">登出</a>
+                    </div>
                 </div>
             </div>
         </nav>
