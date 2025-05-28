@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MVC_FinalProject.Data;
 using MVC_FinalProject.Models;
+using MVC_FinalProject.Models.ViewModels;
 
 namespace MVC_FinalProject.Controllers
 {
@@ -15,7 +16,17 @@ namespace MVC_FinalProject.Controllers
         public async Task<IActionResult> Index()
         {
             var courses = await _context.TableCourses1121645.ToListAsync();
-            return View(courses);
+            var viewmodel = await _context.TableCourses1121645.Select(course => new CourseWithEnrollCountViewModel
+            {
+                CourseId = course.CourseId,
+                CourseName = course.CourseName,
+                Teacher = course.Teacher,
+                MaxCapacity = course.MaxCapacity,
+                EnrolledCount = _context.TableEnrollments1121645.Count(e=>e.CourseId == course.CourseId)
+            })
+            .ToListAsync();
+
+            return View(viewmodel);
         }
         //create
         public IActionResult Create()
@@ -24,7 +35,7 @@ namespace MVC_FinalProject.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CourseId,CourseName,Teacher")] Course course)
+        public async Task<IActionResult> Create([Bind("CourseId,CourseName,Teacher,MaxCapacity")] Course course)
         {
             if (ModelState.IsValid)
             {
@@ -50,7 +61,7 @@ namespace MVC_FinalProject.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CourseId,CourseName,Teacher")] Course course )
+        public async Task<IActionResult> Edit(int id, [Bind("CourseId,CourseName,Teacher,MaxCapacity")] Course course )
         {
             if(id!=course.CourseId)
             {

@@ -42,9 +42,25 @@ namespace MVC_FinalProject.Controllers
                 return RedirectToAction("Login", "Student");
             }
             int studentId = int.Parse(sessionId);
-            bool alreadyEnrolled = await _context.TableEnrollments1121645.AnyAsync(e=>e.StudentId == studentId && e.CourseId == courseId);
-            var course = await _context.TableCourses1121645.FindAsync(courseId);
-            if (!alreadyEnrolled)
+          
+            var course = await _context.TableCourses1121645
+                .Include(c=>c.TableEnrollments1121645)
+                .FirstOrDefaultAsync(c=> c.CourseId == courseId);
+
+            bool alreadyEnrolled = course.TableEnrollments1121645.Any(e => e.StudentId == studentId && e.CourseId == courseId);
+            int currentCapacity = course.TableEnrollments1121645.Count();
+
+     
+
+            if (alreadyEnrolled)
+            {
+                TempData["Enrollmsg"] = $"{course.CourseName} 已經選過了！";
+            }
+            else if(currentCapacity >= course.MaxCapacity)
+            {
+                TempData["Enrollmsg"] = $"{course.CourseName} 人數已滿，選課失敗！";
+            }
+            else
             {
                 var enrollment = new Enrollment
                 {
@@ -55,11 +71,7 @@ namespace MVC_FinalProject.Controllers
                 await _context.SaveChangesAsync();
                 TempData["Enrollmsg"] = $"{course.CourseName}選課成功!";
             }
-            else
-            {
-                TempData["Enrollmsg"] = $"{course.CourseName} 已經選過了！";
-            }
-
+           
             return RedirectToAction("Enroll");
             //return RedirectToAction("Details","Student",new {id = studentId});
         }

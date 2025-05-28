@@ -13,6 +13,9 @@ namespace MVC_FinalProject.Models
         public string CourseName { get; set; }
         [Display(Name = "老師")]
         public string Teacher {  get; set; }
+        [Display(Name = "最大人數")]
+        public int MaxCapacity { get; set; }
+       
         public ICollection<Enrollment> TableEnrollments1121645 { get; set; } = new List<Enrollment>();
      
     }

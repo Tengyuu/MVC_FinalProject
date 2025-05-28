@@ -1,4 +1,5 @@
-﻿@model IEnumerable<MVC_FinalProject.Models.Course>
+﻿@* @model IEnumerable<MVC_FinalProject.Models.Course> *@
+@model IEnumerable<MVC_FinalProject.Models.ViewModels.CourseWithEnrollCountViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -25,6 +26,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Teacher)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxCapacity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EnrolledCount)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -37,6 +44,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Teacher)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaxCapacity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EnrolledCount)
+                </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.CourseId" class="btn btn-info">Edit</a>
                 <a asp-action="Details" asp-route-id="@item.CourseId" class="btn btn-primary">Details</a>
