@@ -50,6 +50,12 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Gender)
         </dd>
+        <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Role)
+        </dt>
+        <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Role)
+        </dd>
     </dl>
 </div>
 <div>  <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> </div>
@@ -88,7 +94,7 @@ else
 }
 
 <div>
-    <a asp-action="Index">← 上一頁</a>
+    <a asp-action="List">← 上一頁</a>
 </div>
 
 

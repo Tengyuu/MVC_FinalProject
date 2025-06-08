@@ -56,7 +56,11 @@
                 <select asp-for="Gender" asp-items="ViewBag.GenderList" class="form-control"></select>
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
-
+            <div class="form-group">
+                <label asp-for="Role"></label>
+                <select asp-for="Role" asp-items="ViewBag.RoleList" class="form-control"></select>
+                <span asp-validation-for="Role" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

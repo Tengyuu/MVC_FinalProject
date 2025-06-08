@@ -107,23 +107,33 @@ namespace MVC_FinalProject.Controllers
                 new SelectListItem {Text = "男", Value= "男" },
                 new SelectListItem {Text = "女", Value= "女" }
             };
+            ViewBag.RoleList = new List<SelectListItem>
+            {
+                new SelectListItem {Text = "Student", Value= "Student" },
+                new SelectListItem {Text = "Admin", Value= "Admin" }
+            };
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Email,Phone,Gender,Password")] Student student)
+        public async Task<IActionResult> Create([Bind("Id,Name,Email,Phone,Gender,Password,Role")] Student student)
         {
             if (ModelState.IsValid)
             {
                 _context.Table1121645.Add(student);
                 await _context.SaveChangesAsync();
-                TempData["CreateSuccessMessage"] = "新增成功!";
+                TempData["CreateSuccessMessage"] = "Create Success!";
                 return RedirectToAction(nameof(Index2));
             }
             ViewBag.GenderList = new List<SelectListItem>
                 {
                 new SelectListItem {Text = "男", Value= "男" },
                 new SelectListItem {Text = "女", Value= "女" }
+            };
+            ViewBag.RoleList = new List<SelectListItem>
+            {
+                new SelectListItem {Text = "Student", Value= "Student" },
+                new SelectListItem {Text = "Admin", Value= "Admin" }
             };
             return View(student);
         }
@@ -141,12 +151,32 @@ namespace MVC_FinalProject.Controllers
             {
                 return NotFound();
             }
+            ViewBag.GenderList = new List<SelectListItem>
+                {
+                new SelectListItem {Text = "男", Value= "男" },
+                new SelectListItem {Text = "女", Value= "女" }
+            };
+            ViewBag.RoleList = new List<SelectListItem>
+            {
+                new SelectListItem {Text = "Student", Value= "Student" },
+                new SelectListItem {Text = "Admin", Value= "Admin" }
+            };
             return View(student);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Password,Id,Name,Email,Phone,Gender")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("Password,Id,Name,Email,Phone,Gender,Role")] Student student)
         {
+            ViewBag.GenderList = new List<SelectListItem>
+                {
+                new SelectListItem {Text = "男", Value= "男" },
+                new SelectListItem {Text = "女", Value= "女" }
+            };
+            ViewBag.RoleList = new List<SelectListItem>
+            {
+                new SelectListItem {Text = "Student", Value= "Student" },
+                new SelectListItem {Text = "Admin", Value= "Admin" }
+            };
             if (id != student.Id)
             {
                 return NotFound();
@@ -169,7 +199,7 @@ namespace MVC_FinalProject.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index2));
+                return RedirectToAction(nameof(List));
             }
             return View(student);
         }
@@ -208,7 +238,7 @@ namespace MVC_FinalProject.Controllers
                 _context.Table1121645.Remove(student);
                 await _context.SaveChangesAsync();
             }
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(List));
         }
 
         //查詢
@@ -293,20 +323,25 @@ namespace MVC_FinalProject.Controllers
             var student = await _context.Table1121645.FindAsync(id);
             if (student == null)
             {
-                ModelState.AddModelError("", "User NotFount.");
-                return View();
+                TempData["ErrorMessage"] = "User NotFount.";
+                return View("ForgetPassword");
             }
             if(string.IsNullOrWhiteSpace(NewPassword))
             {
-                ModelState.AddModelError("", "Password cannot be empty.");
-                return View();
+                TempData["ErrorMessage"] = "Password cannot be empty.";
+                return View("ForgetPassword");
+            }
+            if (student.Password == NewPassword)
+            {
+                TempData["ErrorMessage"] = "The password cannot be the same as the original one.";
+                return View("ForgetPassword");
             }
             student.Password = NewPassword;
             _context.Update(student);
             await _context.SaveChangesAsync();
 
-            TempData["Message"] = "Password reset cuccessful.";
-            return RedirectToAction("Index");
+            TempData["Message"] = "Password Reset Success!";
+            return RedirectToAction("Login");
         }
         //已選課程
         [HttpGet]

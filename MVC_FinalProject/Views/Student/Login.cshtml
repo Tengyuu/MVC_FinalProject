@@ -8,8 +8,8 @@
 }
 
 <h2>帳號登入</h2>
-<p>(管理員登入:Id = 1 ,Password = Admin)</p>
-<p>(學生登入:Id = 1121645 ,Password = Aa1121645)</p>
+<p>(管理員登入:Id = 1,Password = Admin)</p>
+<p>(學生登入:Id = 1121645,Password = Aa1121645)</p>
 @* <form action="@Url.Action("Login")" method="post">
     <p>Account(Id): @Html.TextBox("Id", "", new { @class = "form-control" })</p>
     <p>Password(Name):@Html.TextBox("Name", "", new { @class = "form-control" })</p>
@@ -33,7 +33,7 @@
                 <label for="">Password</label>
             </div>
             <div class="forget">
-                <label for=""><input type="checkbox">Remember</label>
+
                 <a href="@Url.Action("ForgetPassword")">Forget Password</a>
             </div>
             <button type="submit" class="btn btn-info">Login</button>
@@ -120,7 +120,7 @@
             font-size: 0.85rem;
             color: #fff;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
         }
         .forget label{
             display:flex;

@@ -7,10 +7,9 @@
     var pageList = (IPagedList)ViewBag.userModel;
 }
 
+<h1>學生清單</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
@@ -34,6 +33,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Role)
             </th>
             <th></th>
         </tr>
@@ -62,6 +64,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Role)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-info">Edit</a> |

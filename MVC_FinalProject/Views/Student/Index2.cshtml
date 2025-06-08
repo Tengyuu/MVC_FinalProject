@@ -3,6 +3,10 @@
     ViewData["Title"] = "Index2";
 }
 
+@if (TempData["CreateSuccessMessage"] != null)
+{
+    <script>alert('@TempData["CreateSuccessMessage"]');</script>
+}
 
 <div class="HomePage">
     <div class="container">

@@ -67,8 +67,7 @@ namespace MVC_FinalProject.Controllers
             {
                 return NotFound();
             }
-
-            var courseExit = await _context.TableCourses1121645.AnyAsync(c => c.CourseName == course.CourseName && c.Teacher == course.Teacher);
+            var courseExit = await _context.TableCourses1121645.AnyAsync(c=>c.CourseId != course.CourseId && c.CourseName == course.CourseName && c.Teacher == course.Teacher);
             if (courseExit)                                     //從資料庫中這一筆資料的課程名稱 = 使用者輸入送過來的課程名稱。
             {
                                         //("CourseName", "已存在相同資料!")錯誤訊息加在CourseName欄位下
